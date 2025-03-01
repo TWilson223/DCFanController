@@ -21,7 +21,6 @@
 #include <i2c.h>
 
 //Constants
-#define UART_BUADRATE 9600
 #define TEMP_LO_LIMIT 0x0000    //Low & high limit for ADC temp reads, 0 - 125 in degrees C
 #define TEMP_HI_LIMIT 0x007D
 #define RPM_LO_LIMIT  0x0000    //Upper & lower RPM limits
