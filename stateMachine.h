@@ -13,15 +13,20 @@
 #define FAN_LOG_DATA        0x40
 
 //State machine function setup
-typedef void *(*FuncArg)(void*);
-typedef FuncArg(*StateFunc)(FuncArg);
+struct state;
+typedef void stateFunc(struct state *);
+
+struct state
+{
+    stateFunc * next;
+    stateFunc * previous;
+    int i;
+};
 
 //State machine functions
-StateFunc powerupInitialize(StateFunc prevState);
-StateFunc pwmSetUpdate(StateFunc prevState);
-StateFunc fanDataUpdate(StateFunc prevState);
-StateFunc fanLogData(StateFunc prevState);
-
-uint8_t setControllerState(uint8_t state);
+stateFunc powerupInitialize;
+stateFunc pwmSetUpdate;
+stateFunc fanDataUpdate;
+stateFunc fanLogData;
 
 #endif

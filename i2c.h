@@ -7,12 +7,13 @@
 #define i2c_h
 
 //I2C defines
-#define MEM_I2C_WRITE_ADDR 0xA0;
-#define MEM_I2C_READ_ADDR 0xA1;
-#define MAX_I2C_DATA_LEN 41;
+#define MEM_I2C_WRITE_ADDR 0xA0
+#define MEM_I2C_READ_ADDR 0xA1
+#define MAX_I2C_DATA_LEN 41
 
 //Data structure to hold I2C information
-typedef struct{
+typedef struct
+{
 
     //Data buffers
     uint8_t txMesgBuffer[MAX_I2C_DATA_LEN];

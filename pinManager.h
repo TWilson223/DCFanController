@@ -9,5 +9,4 @@
 void pinInitialization(void);
 void initializeDevBoardController(void);
 
-
 #endif

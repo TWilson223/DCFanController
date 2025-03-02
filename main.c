@@ -1,29 +1,26 @@
 /*
+*
 * DC Fan Controller
 * Controller meant to read temperature data from external sensors through internal ADC
 * and resond to that feedback by providing PWM control signals to standard 4-pin DC fans 
 * and voltage control to 3-pin DC fans.
 * 
-* TWilson223
-*
 */
 
-#include <system.h>
+#include "system.h"
+#include "stateMachine.h"
+
+//Define instance of database
+controllerDatabase_t controllerData;
 
 int main(void)
 {
-    WDTCTL = WDTPW | WDTHOLD;               // Stop WDT
+    WDTCTL = WDTPW | WDTHOLD;               // Stop WDT, for now for debugging
 
-    // Configure GPIO
-    P1DIR |= BIT0;                          // Clear P1.0 output latch for a defined power-on state
-    P1OUT |= BIT0;                          // Set P1.0 to output direction
+    //Initialize first state
+    struct state currentState = {powerupInitialize, NULL, 0};    
 
-    PM5CTL0 &= ~LOCKLPM5;                   // Disable the GPIO power-on default high-impedance mode
-                                            // to activate previously configured port settings
+    while(currentState.next) currentState.next(&currentState);
 
-    while(1)
-    {
-        P1OUT ^= BIT0;                      // Toggle LED
-        __delay_cycles(100000);
-    }
+    return EXIT_SUCCESS;
 }

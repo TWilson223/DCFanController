@@ -49,11 +49,7 @@ typedef struct
     //Status flags
     bool postInProgress;        //POST in progress
     bool adcReadInProgress;     //ADC read in progress on temp sensors
-    bool fan0Connected;         //Fan detected on connector 0
-    bool fan1Connected;         
-    bool fan2Connected;
-    bool fan3Connected;
-    bool fan4Connected;
+    bool isConnected[5];        //Array to indicate if a fan is connected
     bool softwareError;         //Flag for software error
     bool debugIntMsg;           //Indicates debug interface message & routing
 
