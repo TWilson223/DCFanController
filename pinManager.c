@@ -1,6 +1,6 @@
 /*
 *
-* Pin settings & initialization
+* Pin setting functions
 * 
 */
 
@@ -32,6 +32,14 @@ void pinInitialization(void)
     P2SEL0 |= BIT7;                         //P2.7 timer B, TB0.6 function selected
     P3SEL1 |= (BIT3 | BIT6);                //P3.3 timer A TA1.1 and 3.6 timer B, TB0.2  function selected
 
+    //CCIs
+    P2DIR &= ~(BIT0 | BIT2 | BIT4 | BIT5);  //P2.0 & P2.2 & P2.4 & P2.5 inputs
+    P3DIR &= ~(BIT7);                       //P3.7 input
+
+    P2SEL1 |= (BIT0 | BIT2);                //P2.0 TB0.CCI6B, P2.2 TB0.CCI4B function
+    P2SEL0 |= (BIT4 | BIT5);                //P2.4 TB0.CCI3A, P2.5 TB0.CCI4A function
+    P3SEL1 |= BIT7;                         //P3.7 TB0.CCI3B function    
+
     //I2C
     P4SEL1 |= (BIT0 | BIT1);                //P4.0, 4.1 SDA/SCL function on UCB1
     
@@ -40,8 +48,8 @@ void pinInitialization(void)
 
     //SPI
     P1SEL0 |= (BIT4 | BIT6 | BIT7);         //P1.4, 1.6, 1.7 CLK, SIMO, SOMI on UCCB0
-                                            //P2.5 configured as CS for LCD
-                                            //P2.4 configured as CS for data transmit device
+                                            //P1.3 configured as CS for LCD
+                                            //P2.3 configured as CS for data transmit device
 
     PM5CTL0 &= ~LOCKLPM5;                   // Disable the GPIO power-on default high-impedance mode
                                             // to activate previously configured port setting

@@ -6,6 +6,9 @@
 #ifndef adc_h
 #define adc_h
 
+#define MIN_ADC_CHANNEL 4
+#define MAX_ADC_CHANNEL 8
+
 // Lookup table for TMP6131QLP temp sensor | Format: {Temperature (C), Resistance (Ohms)}
 int therm_res_L_table[126][2] = 
 {

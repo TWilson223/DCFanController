@@ -14,8 +14,6 @@
 #include <stdbool.h>
 #include <stateMachine.h>
 #include <pinManager.h>
-#include <timer.h>
-#include <adc.h>
 #include <uart.h>
 #include <debugComms.h>
 #include <i2c.h>
