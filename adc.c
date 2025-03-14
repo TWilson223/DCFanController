@@ -6,7 +6,6 @@
 */
 
 #include "intrinsics.h"
-#include "msp430fr6989.h"
 #include "system.h"
 #include "adc.h"
 
@@ -53,6 +52,7 @@ void adcStop(void)
     return;
 }
 
+//Iterates through defined ADC channels and places them in controllerData data structure
 void adcRead(void)
 {
     controllerData.adcReadInProgress = true;
@@ -62,23 +62,55 @@ void adcRead(void)
     uint16_t i;
     
     //Read from the 5 ADC channels, from A4 -> A8
-    for(i = 0; i < 5; i++)
+    for(i = MIN_ADC_CHANNEL; i <= MAX_ADC_CHANNEL; i++)
     {
-        ADC12MCTL0 = i+MIN_ADC_CHANNEL;     //Set channel read, Vref = AVCC
-        adcStart();                         //Start ADC conversion
+        ADC12MCTL0 = i;                                                 //Set channel read, Vref = AVCC
+        adcStart();                                                     //Start ADC conversion
 
         //TODO need to disable other interrupts here to ensure only ADC wakes up proc
-        __bis_SR_register(LPM0_bits | GIE); //Wait for read to finish
-                                            //ADC12IFG0 set when ADC12MEM0 has data
+        __bis_SR_register(LPM0_bits | GIE);                             //Wait for read to finish
+                                                                        //ADC12IFG0 set when ADC12MEM0 has data
 
-        *(value[i]) = ADC12MEM0;            //Return from ISR, grab data in ADC12MEM0
+        *(value[(i-(MAX_ADC_CHANNEL-MIN_ADC_CHANNEL))]) = ADC12MEM0;    //Return from ISR, grab data in ADC12MEM0
 
-        adcStop();                          //Reset ADC to change ADC12MCTL0        
+        adcStop();                                                      //Reset ADC to change ADC12MCTL0        
+
+        //Small delay between reads, TODO change to timer
+        __delay_cycles(5000);
     }
 
     controllerData.adcReadInProgress = false;
 
     return;
+}
+
+/*
+* Takes in desired resistance value x, thermal lookup table is fixed
+*
+* Log(n) search through therm_res_L_table. Intention is to always return a temp equal to
+* the measured resistance or the closest (n-1) temp. Returns max table temp for any 
+* resistance over the max. Returns 0 for values less than min table resistance.
+*/
+uint16_t thermSearch(uint16_t x)
+{
+    uint16_t l = 0;
+    uint16_t r = (sizeof(therm_res_L_table)/sizeof(therm_res_L_table[0]));
+    uint16_t m = 0;
+
+    while(l + 1 < r)
+    {
+        m = ((l+r)/2);                  //Find mid value
+
+        if(x < (therm_res_L_table[m][1]))
+            r = m;
+        else
+            l = m;
+    }
+
+    if((therm_res_L_table[l][1]) <= x)
+        return l;
+
+    return 0;
 }
 
 //ADC ISR

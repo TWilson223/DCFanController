@@ -8,9 +8,12 @@
 
 #define MIN_ADC_CHANNEL 4
 #define MAX_ADC_CHANNEL 8
+#define NUM_ADC_CHANNEL 5
+#define MAX_RES_THERMAL 17874
+#define MIN_RES_THERMAL 8495
 
 // Lookup table for TMP6131QLP temp sensor | Format: {Temperature (C), Resistance (Ohms)}
-int therm_res_L_table[126][2] = 
+uint16_t therm_res_L_table[126][2] = 
 {
     {0, 8495},    {1, 8550},    {2, 8605},    {3, 8660},    {4, 8716},
     {5, 8772},    {6, 8829},    {7, 8885},    {8, 8942},    {9, 9000},
@@ -44,5 +47,6 @@ void adcInitialize(void);
 void adcStart(void);
 void adcStop(void);
 void adcRead(void);
+uint16_t thermSearch(uint16_t x);
 
 #endif
