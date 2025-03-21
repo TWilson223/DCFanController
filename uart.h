@@ -10,8 +10,10 @@
 #define MAX_UART_DATA_LEN 41
 
 void uartInit(void);
-void uartStart(void);
-void uartStop(void);
+bool uartStart(void);
+bool uartStop(void);
+bool uartSendBufferByte(void);
+bool uartSetBufferTx(void);
 
 //Data structure to hold UART information
 typedef struct{
@@ -36,8 +38,5 @@ typedef struct{
     bool responsePending;
     
 }uartData_t;
-
-bool uartSendBufferByte(void);
-bool uartSetBufferTx(void);
 
 #endif

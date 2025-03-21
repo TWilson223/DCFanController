@@ -4,8 +4,8 @@
 * 
 */
 
+#include "system.h"
 #include "pinManager.h"
-#include <msp430.h>
 
 void pinInitialization(void)
 {

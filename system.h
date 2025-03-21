@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "intrinsics.h"
 #include <stateMachine.h>
 #include <pinManager.h>
 #include <uart.h>

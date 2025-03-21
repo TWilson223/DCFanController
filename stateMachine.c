@@ -4,6 +4,7 @@
 * 
 */
 
+#include "system.h"
 #include "stateMachine.h"
 
 void powerupInitialize(struct state * state)

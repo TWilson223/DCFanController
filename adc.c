@@ -5,7 +5,6 @@
 *
 */
 
-#include "intrinsics.h"
 #include "system.h"
 #include "adc.h"
 
