@@ -10,7 +10,10 @@ void clearTxBuffer(void)
     return;
 }
 
-bool receiveMesg(uint8_t data);
+bool receiveMesg(uint8_t data)
+{
+    return false;
+}
 void processMesg(void);
 void sendInvalidCmdMesg(void);
 void sendTempReadMesg(void);
