@@ -54,37 +54,37 @@ void adcStop(void)
 //Iterates through defined ADC channels and places them in controllerData data structure
 void adcRead(void)
 {
-    controllerData.adcReadInProgress = true;
+    controllerData.adcReadInProgress = 1;
 
-    uint16_t * value[5] = {&controllerData.temp0, &controllerData.temp1, &controllerData.temp2,
-    &controllerData.temp3, &controllerData.temp4};
+    uint16_t * value[5] = {&controllerData.tempSensorValues[0], &controllerData.tempSensorValues[1], 
+    &controllerData.tempSensorValues[2], &controllerData.tempSensorValues[3], &controllerData.tempSensorValues[4]};
     uint16_t i;
     
-    //Read from the 5 ADC channels, from A4 -> A8
+    //Read 5 ADC channels, from A4 -> A8
     for(i = MIN_ADC_CHANNEL; i <= MAX_ADC_CHANNEL; i++)
     {
-        ADC12MCTL0 = i;                                                 //Set channel read, Vref = AVCC
-        adcStart();                                                     //Start ADC conversion
+        ADC12MCTL0 = i;                                                                             //Set channel read, Vref = AVCC
+        adcStart();                                                                                 //Start ADC conversion
 
-        //TODO need to disable other interrupts here to ensure only ADC wakes up proc
-        __bis_SR_register(LPM0_bits | GIE);                             //Wait for read to finish
-                                                                        //ADC12IFG0 set when ADC12MEM0 has data
+        //TODO need to disable other interrupts here to ensure only ADC wakes up proc here
+        __bis_SR_register(LPM0_bits | GIE);                                                         //Wait for read to finish
+                                                                                                    //ADC12IFG0 set when ADC12MEM0 has data
 
-        *(value[(i-(MAX_ADC_CHANNEL-MIN_ADC_CHANNEL))]) = ADC12MEM0;    //Return from ISR, grab data in ADC12MEM0
+        *(value[(i-(MAX_ADC_CHANNEL-MIN_ADC_CHANNEL))]) = ADC12MEM0;                                //Return from ISR, grab data in ADC12MEM0
 
-        adcStop();                                                      //Reset ADC to change ADC12MCTL0        
+        adcStop();                                                                                  //Reset ADC to change ADC12MCTL0        
 
-        //Small delay between reads, TODO change to timer
+        //Small delay between reads, TODO change to timer delay
         __delay_cycles(5000);
     }
 
-    controllerData.adcReadInProgress = false;
+    controllerData.adcReadInProgress = 0;
 
     return;
 }
 
 /*
-* Takes in desired resistance value x, thermal lookup table is fixed
+* Takes in desired resistance value x, thermal lookup table is fixed and ordered
 *
 * Log(n) search through therm_res_L_table. Intention is to always return a temp equal to
 * the measured resistance or the closest (n-1) temp. Returns max table temp for any 
@@ -92,13 +92,13 @@ void adcRead(void)
 */
 uint16_t thermSearch(uint16_t x)
 {
-    uint16_t l = 0;
-    uint16_t r = (sizeof(therm_res_L_table)/sizeof(therm_res_L_table[0]));
-    uint16_t m = 0;
+    uint16_t l = 0;                                                                                 //lower value
+    uint16_t r = (sizeof(therm_res_L_table)/sizeof(therm_res_L_table[0]));                          //upper value
+    uint16_t m = 0;                                                                                 //middle value
 
     while(l + 1 < r)
     {
-        m = ((l+r)/2);                  //Find mid value
+        m = (uint16_t)((l+r)/2);                                                                    //Find mid value
 
         if(x < (therm_res_L_table[m][1]))
             r = m;

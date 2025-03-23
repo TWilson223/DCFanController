@@ -19,16 +19,23 @@ int therm_dc_L_table[26][2] =
     {120, 100}, {125, 100},
 };
 
-//Interval countdown timer functions
+//Interval countdown timer and general delay functions
 void timerInitialize(void);
-void timerStart(void);
-void timerStop(void);
+bool timerStart(uint8_t timer);                                         
+bool timerStop(uint8_t timer);
 
 //PWM functions
 void pwmBankInitialize(void);
-bool pwmNumStart(uint8_t n, uint8_t connNum[]);
-bool pwmNumStop(uint8_t n, uint8_t connNum[]);
+bool pwmNumStart(uint8_t connNum[]);
+bool pwmNumUpdate(uint8_t dc, uint8_t connNum[]);
+bool pwmNumStop(uint8_t connNum[]);
 
+//Tachometer functions
+void tachInitialize(void);
+bool tachRead(uint8_t connNum[]);
+bool tachDataUpdate(uint8_t connNum[]);
+
+//Watchdog functions
 void watchdogTimerReset(void);
 
 #endif

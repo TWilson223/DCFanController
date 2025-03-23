@@ -46,34 +46,22 @@ typedef struct
     i2cData_t i2cInt;
     
     //Status flags
-    bool postInProgress;        //POST in progress
-    bool adcReadInProgress;     //ADC read in progress on temp sensors
-    bool isConnected[5];        //Array to indicate if a fan is connected
-    bool softwareError;         //Flag for software error
-    bool debugIntMsg;           //Indicates debug interface message & routing
+    bool postInProgress;            //POST in progress
+    bool adcReadInProgress;         //ADC read in progress on temp sensors
+    bool isConnected[5];            //Array to indicate if a fan is connected
+    bool softwareError;             //Flag for software error
+    bool debugIntMsg;               //Indicates debug interface message & routing
 
     //ADC channel read values
-    uint16_t temp0;
-    uint16_t temp1;
-    uint16_t temp2;
-    uint16_t temp3;
-    uint16_t temp4;
+    uint16_t tempSensorValues[5];
 
     //Timers
-    uint8_t secTracker;         //Variable to track seconds in timer module
-    uint16_t tenthSecTracker;   //Variable to track intervals of 100 ms in timer module
+    uint16_t secTracker;            //Variable to track seconds in timer module
+    uint16_t tenthSecTracker;       //Variable to track intervals of 100 ms in timer module
 
     //DC Fan data values
-    uint16_t fan0Tach;          //Tracks connected fan speed in rotations per minute
-    uint16_t fan1Tach;
-    uint16_t fan2Tach;
-    uint16_t fan3Tach;
-    uint16_t fan4Tach;
-    uint8_t fan0DutyCyc;        //Tracks fan duty cycle as a percentage
-    uint8_t fan1DutyCyc;
-    uint8_t fan2DutyCyc;
-    uint8_t fan3DutyCyc;
-    uint8_t fan4DutyCyc;
+    uint16_t fanTachValues[5];      //Tracks connected fan speed in rotations per minute
+    uint8_t  fanDutyCycValues[5];   //Tracks fan duty cycle as a percentage
 
 }controllerDatabase_t;
 

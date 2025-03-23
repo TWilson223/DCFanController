@@ -106,7 +106,7 @@ void __attribute__ ((interrupt(USCI_A0_VECTOR))) USCI_A0_ISR (void)
     case USCI_UART_UCRXIFG:
         controllerData.debugInt.rxByte = (uint8_t)(UCA0RXBUF & 0x00FF);                                 //Grab RX data        
         UCA0IFG &= ~UCRXIFG;                                                                            //Clear RX int flag
-        receiveMesg(controllerData.debugInt.rxByte);                                                    //Receive RX message, will only be 1 byte for UART
+        receiveMesg(controllerData.debugInt.rxByte);                                                    //TODO: Might need to remove function call here | Receive RX message, will only be 1 byte for UART
         break;
     case USCI_UART_UCTXIFG: 
         UCA0IFG &= ~UCTXIFG;                                                                            //Clear TX int flag
