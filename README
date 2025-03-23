@@ -1,0 +1,2 @@
+Small C based DC fan controller utilizing a TI MSP430FR6989. 
+To compile and link: Utilize TI's CCS (written with version 20.0.2.5)
