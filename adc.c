@@ -56,8 +56,6 @@ void adcRead(void)
 {
     controllerData.adcReadInProgress = 1;
 
-    uint16_t * value[5] = {&controllerData.tempSensorValues[0], &controllerData.tempSensorValues[1], 
-    &controllerData.tempSensorValues[2], &controllerData.tempSensorValues[3], &controllerData.tempSensorValues[4]};
     uint16_t i;
     
     //Read 5 ADC channels, from A4 -> A8
@@ -70,7 +68,7 @@ void adcRead(void)
         __bis_SR_register(LPM0_bits | GIE);                                                         //Wait for read to finish
                                                                                                     //ADC12IFG0 set when ADC12MEM0 has data
 
-        *(value[(i-(MAX_ADC_CHANNEL-MIN_ADC_CHANNEL))]) = ADC12MEM0;                                //Return from ISR, grab data in ADC12MEM0
+        controllerData.tempSensorValues[(i-(MAX_ADC_CHANNEL-MIN_ADC_CHANNEL))] = ADC12MEM0;        //Return from ISR, grab data in ADC12MEM0
 
         adcStop();                                                                                  //Reset ADC to change ADC12MCTL0        
 

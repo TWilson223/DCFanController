@@ -48,7 +48,7 @@ typedef struct
     //Status flags
     bool postInProgress;            //POST in progress
     bool adcReadInProgress;         //ADC read in progress on temp sensors
-    bool isConnected[5];            //Array to indicate if a fan is connected
+    bool isConnected[4];            //Array to indicate if a fan is connected
     bool softwareError;             //Flag for software error
     bool debugIntMsg;               //Indicates debug interface message & routing
 
@@ -60,8 +60,8 @@ typedef struct
     uint16_t tenthSecTracker;       //Variable to track intervals of 100 ms in timer module
 
     //DC Fan data values
-    uint16_t fanTachValues[5];      //Tracks connected fan speed in rotations per minute
-    uint8_t  fanDutyCycValues[5];   //Tracks fan duty cycle as a percentage
+    uint16_t fanTachValues[4];      //Tracks connected fan speed in rotations per minute
+    uint8_t  fanDutyCycValues[4];   //Tracks fan duty cycle as a percentage
 
 }controllerDatabase_t;
 
