@@ -18,6 +18,7 @@
 #include <uart.h>
 #include <debugComms.h>
 #include <i2c.h>
+#include <timer.h>
 
 //Constants
 #define TEMP_LO_LIMIT 0x0000    //Low & high limit for ADC temp reads, 0 - 125 in degrees C
@@ -48,6 +49,7 @@ typedef struct
     //Status flags
     bool postInProgress;            //POST in progress
     bool adcReadInProgress;         //ADC read in progress on temp sensors
+    bool fanDataReadyToUpdate;      //Indicate a second has passed and fan data can be updated
     bool isConnected[4];            //Array to indicate if a fan is connected
     bool softwareError;             //Flag for software error
     bool debugIntMsg;               //Indicates debug interface message & routing
