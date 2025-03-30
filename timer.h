@@ -24,7 +24,7 @@ int therm_dc_L_table[26][2] =
 
 //Interval countdown timer and general delay functions
 void timerInitialize(void);
-bool timerStart(uint8_t timer);                                         
+bool timerStart(uint8_t timer, uint16_t delay);                                         
 bool timerStop(uint8_t timer);
 
 //PWM functions

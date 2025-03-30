@@ -21,7 +21,9 @@ int main(void)
         return EXIT_FAILURE;
 
     //Initialize first state
-    struct state currentState = {powerupInitialize, NULL, 0};    
+    struct state currentState = {powerupInitialize, NULL, 0};
+
+    __enable_interrupt();    
 
     while(currentState.next) currentState.next(&currentState);
 

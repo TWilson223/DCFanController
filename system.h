@@ -57,7 +57,7 @@ typedef struct
 
     //Timers
     uint16_t secTracker;            //Variable to track seconds in timer module
-    uint16_t tenthSecTracker;       //Variable to track intervals of 100 ms in timer module
+    uint16_t hourTracker;           //Variable to track hours
 
     //DC Fan data values
     uint16_t fanTachValues[4];      //Tracks connected fan speed in rotations per minute
