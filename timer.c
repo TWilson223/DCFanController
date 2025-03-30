@@ -12,6 +12,8 @@
 //Initializes timer for delay and interval between PWM/Tach update periods
 void timerInitialize(void)
 {
+    //Set up interval timer, timer A2
+    TA2CTL = 0x0000;
 
 
 

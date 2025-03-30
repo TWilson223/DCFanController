@@ -36,7 +36,7 @@ bool uartStart(void)
     //Enable interrupts for char in RX buffer
     UCA0IE |= UCRXIE;
 
-    return 1;
+    return EXIT_SUCCESS;
 }
 
 bool uartStop(void)
@@ -47,7 +47,7 @@ bool uartStop(void)
 
     UCA0CTLW0 |= UCSWRST;                                                                               //Disable eUSCI A0
 
-    return 1;
+    return EXIT_SUCCESS;
 }
 
 //Poll while waiting for full TX message to send
@@ -66,12 +66,12 @@ bool uartSendBuffer(void)
 
         controllerData.debugInt.txMesgIndex = 0;
 
-        return 1;
+        return EXIT_SUCCESS;
     }
     else                                                                                                //Full message not sent
         controllerData.debugInt.debugError = 1;                                                         //Indicate error w/ debug comms
     
-    return 0;                                                                                           //Return failed
+    return EXIT_FAILURE;                                                                                //Return failed
 }
 
 //Setup UART TX buffer, interrupts, and set TX enabled flag
@@ -79,7 +79,7 @@ bool uartSetBufferTx(void)
 {
     //Error handling: if tx already enabled or mesg len is 0, return false
     if((controllerData.debugInt.txMesgEn == true) || (controllerData.debugInt.txMesgLen == 0))
-        return 0;
+        return EXIT_FAILURE;
 
     controllerData.debugInt.txMesgEn = 1;                                                               //TX enabled flag
     controllerData.debugInt.txMesgIndex = 0;                                                            //Reset mesg index

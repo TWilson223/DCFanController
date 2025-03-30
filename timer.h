@@ -7,7 +7,10 @@
 #define timer_h
 
 //PWM frequency set to 25KHz
-#define PWM_FREQ 400
+#define PWM_FREQ            400
+
+#define timerA2_interval    2
+#define timerA3_delay       3 
 
 //Lookup table for duty cycle | Format: {temperature (C), duty cycle %}
 int therm_dc_L_table[26][2] = 

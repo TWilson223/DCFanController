@@ -68,7 +68,7 @@ void adcRead(void)
         __bis_SR_register(LPM0_bits | GIE);                                                         //Wait for read to finish
                                                                                                     //ADC12IFG0 set when ADC12MEM0 has data
 
-        controllerData.tempSensorValues[(i-(MAX_ADC_CHANNEL-MIN_ADC_CHANNEL))] = ADC12MEM0;        //Return from ISR, grab data in ADC12MEM0
+        controllerData.tempSensorValues[(i-(MAX_ADC_CHANNEL-MIN_ADC_CHANNEL))] = ADC12MEM0;         //Return from ISR, grab data in ADC12MEM0
 
         adcStop();                                                                                  //Reset ADC to change ADC12MCTL0        
 
