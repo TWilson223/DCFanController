@@ -17,7 +17,7 @@ int main(void)
 {
     WDTCTL = WDTPW | WDTHOLD;       //Stop WDT, for now for debugging
 
-    if(!(clockSetup()))
+    if(clockSetup())
         return EXIT_FAILURE;
 
     //Initialize first state
