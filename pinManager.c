@@ -56,3 +56,37 @@ void pinInitialization(void)
     PM5CTL0 &= ~LOCKLPM5;                   // Disable the GPIO power-on default high-impedance mode
                                             // to activate previously configured port setting
 }
+
+bool clockSetup(void)
+{
+    //Pin setup for external LF crystal
+    PJSEL0 |= (BIT4 | BIT5);                         //LFXIN & LFXOUT in crystal mode
+    PJSEL1 &= ~(BIT4 | BIT5);
+
+    PM5CTL0 &= ~LOCKLPM5;                           // Disable the GPIO power-on default high-impedance mode
+                                                    // to activate previously configured port setting
+
+    //Clock setup
+    CSCTL0_H = CSKEY_H;                             //Unlock clock select registers
+    CSCTL1 = (DCORSEL | DCOFSEL_4);                 //HF range select en, DCOCLK = 16MHz
+    CSCTL2 = (SELM__DCOCLK | SELS__DCOCLK);         //SMCLK & MCLK = DCOCLK;
+    CSCTL2 &= ~(SELA_7);                            //ACLK = LFXTCLK
+    CSCTL3 = 0x0000;                                //All CLK dividers set to 1
+    
+    CSCTL4 = (VLOOFF | HFXTOFF);                    //VLO off, HFXT off
+    CSCTL4 &= ~(LFXTOFF);                           //LFXT on
+    
+    //OSC fault interrupt enable
+    SFRIE1 |= OFIE;
+
+    //Wait for LFXT configuration and clear fault flag
+    do
+    {
+        CSCTL5 &= ~LFXTOFFG;                        //Clear XT1 fault flag
+        SFRIFG1 &= ~OFIFG;                          //Clear OSC fault flag
+    }while (SFRIFG1&OFIFG);                         //Test oscillator fault flag 
+
+    CSCTL0_H = 0x00;                                //Re-lock CS registers
+
+    return EXIT_SUCCESS;
+}

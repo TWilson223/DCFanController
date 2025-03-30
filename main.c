@@ -17,13 +17,8 @@ int main(void)
 {
     WDTCTL = WDTPW | WDTHOLD;       //Stop WDT, for now for debugging
 
-    //Clock setup
-    CSCTL0_H = CSKEY_H;                             //Unlock clock select registers
-    CSCTL1 = DCORSEL | DCOFSEL_4;                   //HF range select en, DCOCLK = 16MHz
-    CSCTL2 = SELA0 | SELM__DCOCLK | SELS__DCOCLK;   //ACLK = VLOCLK, SMCLK & MCLK = DCOCLK;
-    CSCTL3 = 0x0000;                                //All CLK dividers set to 1
-    CSCTL4 = LFXTOFF | HFXTOFF;                     //External CLK sources off
-    CSCTL0_H = 0x00;                                //Re-lock CS registers
+    if(!(clockSetup()))
+        return EXIT_FAILURE;
 
     //Initialize first state
     struct state currentState = {powerupInitialize, NULL, 0};    

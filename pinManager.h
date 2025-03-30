@@ -7,6 +7,7 @@
 #define pinManager_h
 
 void pinInitialization(void);
+bool clockSetup(void);
 void initializeDevBoardController(void);
 
 #endif
