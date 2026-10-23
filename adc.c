@@ -103,7 +103,7 @@ void adcRead(void)
         adcStop();                                                                                  //Reset ADC to change ADC12MCTL0        
 
         //Small delay between reads
-        timerStart(timerA3_delay, 625);                                                             //delays for 312 microseconds
+        timerStart(timerA3_delay, 100);                                                             //delays for 50 microseconds
     }
 
     controllerData.adcReadInProgress = 0;

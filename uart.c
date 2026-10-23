@@ -53,6 +53,9 @@ bool uartStop(void)
 //Poll while waiting for full TX message to send
 bool uartSendBuffer(void)
 {
+    //Wait for any active ADC read to end
+    while(controllerData.adcReadInProgress);
+    
     //Send first TX message
     UCA0TXBUF = controllerData.debugInt.txMesgBuffer[controllerData.debugInt.txMesgIndex++];    
 
